@@ -53,7 +53,6 @@ def parse_args():
     parse = argparse.ArgumentParser(description='calculate square')
     parse.add_argument('numbers',type=str, nargs='+',help='a list of number strings')
     args = parse.parse_args()
-    #print(args)
     return args
 
 
