@@ -52,6 +52,7 @@ def convert_numbers(list_of_strings):
 def parse_args():
     parse = argparse.ArgumentParser(description='calculate square')
     parse.add_argument('numbers',type=str, nargs='+',help='a list of number strings')
+    parse.add_argument('weights',type=str, nargs='+',help='a list of weight strings')
     args = parse.parse_args()
     return args
 
@@ -59,11 +60,12 @@ def parse_args():
 if __name__ == "__main__":
 
     args = parse_args()
-    weight_strings = ["1","1","1"]
-
+    # weight_strings = ["1","1","1"]
+    # input as "1 2 4" "1 1 1" 
     numbers = convert_numbers(args.numbers)
-    weights = convert_numbers(weight_strings)
-    
+    print(numbers)
+    weights = convert_numbers(args.weights)
+    print(weights)
     result = average_of_squares(numbers, weights)
     
     print(result)
