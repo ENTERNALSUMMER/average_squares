@@ -42,17 +42,20 @@ def convert_numbers(list_of_strings):
 
     """
     all_numbers = []
-    for s in list_of_strings:
+    if list_of_strings is None:
+        all_numbers = None
+    else:
+        for s in list_of_strings:
         # Take each string in the list, split it into substrings separated by
         # whitespace, and collect them into a single list...
-        all_numbers.extend([int(token.strip()) for token in s.split()])
+            all_numbers.extend([int(token.strip()) for token in s.split()])
     # ...then convert each substring into a number
     return all_numbers
 
 def parse_args():
     parse = argparse.ArgumentParser(description='calculate square')
-    parse.add_argument('numbers',type=str, nargs='+',help='a list of number strings')
-    parse.add_argument('weights',type=str, nargs='+',help='a list of weight strings')
+    parse.add_argument('numbers',type=str, nargs='*',help='a list of number strings')
+    parse.add_argument('-w','--weights',type=str, nargs='?',default=None,action = 'store',help='a list of weight strings')
     args = parse.parse_args()
     return args
 
@@ -60,7 +63,7 @@ def parse_args():
 if __name__ == "__main__":
 
     args = parse_args()
-    # weight_strings = ["1","1","1"]
+    # weight_strings = ["1"]
     # input as "1 2 4" "1 1 1" 
     numbers = convert_numbers(args.numbers)
     print(numbers)
