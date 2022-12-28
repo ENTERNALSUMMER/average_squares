@@ -1,6 +1,8 @@
 """Computation of weighted average of squares."""
 import argparse
-
+# import readline
+import numpy as np
+import csv
 def average_of_squares(list_of_numbers, list_of_weights=None):
     """ Return the weighted average of a list of values.
     
@@ -45,18 +47,27 @@ def convert_numbers(list_of_strings):
     if list_of_strings is None:
         all_numbers = None
     else:
-        for s in list_of_strings:
+        for s in list_of_strings.split(','):
+            for token in s.split('"'):
+                for t in token.split():
+                    try:
+                        all_numbers.append(float(t))
+                    except ValueError:
+                        pass
+            # all_numbers.extend([token.strip() for token in s.split()])
         # Take each string in the list, split it into substrings separated by
         # whitespace, and collect them into a single list...
-            all_numbers.extend([int(token.strip()) for token in s.split()])
-    # ...then convert each substring into a number
     return all_numbers
 
 def parse_args():
     parse = argparse.ArgumentParser(description='calculate square')
-    parse.add_argument('numbers',type=str, nargs='*',help='a list of number strings')
-    parse.add_argument('-w','--weights',type=str, nargs='?',default=None,action = 'store',help='a list of weight strings')
-    args = parse.parse_args()
+    parse.add_argument('numbers',type=open, nargs='*',help='a list of number strings')
+    parse.add_argument('-w','--weights',type=open, nargs='?',default=None,help='a list of weight strings')
+    args = parse.parse_args() 
+    with open('numbers.txt','r') as myfile:
+        args.numbers = myfile.read()
+    with open('weights.txt','r') as myfile:
+        args.weights = myfile.read()
     return args
 
 
@@ -66,9 +77,8 @@ if __name__ == "__main__":
     # weight_strings = ["1"]
     # input as "1 2 4" "1 1 1" 
     numbers = convert_numbers(args.numbers)
-    print(numbers)
+    # print(open(args.numbers).read())
     weights = convert_numbers(args.weights)
-    print(weights)
+    # print(weights)
     result = average_of_squares(numbers, weights)
-    
     print(result)
